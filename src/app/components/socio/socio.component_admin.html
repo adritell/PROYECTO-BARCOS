@@ -1,0 +1,130 @@
+<!-- Header -->
+<div class="container-fluid p-0">
+  <header class="bg-dark text-white py-4">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-6">
+                  <h2 class="mb-0">Listado de Socios</h2>
+                  <button (click)="logout()" *ngIf="isLogged()">Cerrar sesión</button>
+              </div>
+              
+          </div>
+      </div>
+  </header>
+
+  <br><br><br>
+
+  
+
+<div class="container col-md-12 p-2">
+    <button *ngIf="isAdmin()" type="button" (click)="btnAddSocio()" class="btn btn-primary btn-sm" data-bs-toogle="modal" data-bs-target="#example">Añadir socio</button>
+    &nbsp;
+    &nbsp;
+    <button *ngIf="isAdmin()" type="button" class="btn btn-primary btn-sm" (click)="barcos()">Panel Barcos</button>
+    <table class="table mt-2 table-bordered">
+        <thead class="table-primary">
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>DNI</th>
+            <th *ngIf="isAdmin()">Gestión</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let socio of listSocios">
+            <td>{{ socio.id }}</td>
+            <td>{{ socio.nombre }}</td>
+            <td>{{ socio.apellidos }}</td>
+            <td>{{ socio.dni }}</td>
+
+            
+            <td *ngIf="isAdmin">
+                <button  *ngIf="isAdmin()" class="btn btn-danger btn-sm" (click)="deleteSocio(socio.id)">Eliminar</button>
+                &nbsp;
+                <!--Al botón de editar le pasamos el socio actual como argumento-->
+                <button *ngIf="isAdmin()" class="btn btn-warning btn-sm" (click)="editSocio(socio)">Editar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+</div>
+
+
+
+
+
+
+
+<!-- Diálogo para el formulario añadir-->
+<p-dialog header="Añadir Socio" [(visible)]="dialog" [modal]="true" [responsive]="true" [style]="{width: '400px'}">
+    <!-- Contenido del diálogo -->
+    <ng-template pTemplate="content">
+        <!-- Formulario para añadir socio -->
+        <form [formGroup]="formCard" (ngSubmit)="saveSocio()">
+            <!-- Campos del formulario -->
+            
+            <div class="form-group">
+                <label for="nombre_socio">Nombre:</label>
+                <input type="text" class="form-control" id="nombre_socio" formControlName="nombre">
+              </div>
+            <div class="form-group">
+                <label for="apellidos_socio">Apellidos:</label>
+                <input type="text" class="form-control" id="apellidos_socio" formControlName="apellidos">
+              </div>
+            <div class="form-group">
+                <label for="dni_socio">DNI:</label>
+                <input type="text" class="form-control" id="dni_socio" formControlName="dni">
+              </div>
+            <!-- Botón para guardar el socio -->
+            <button type="button" class="btn btn-primary" (click)="saveSocio()">Guardar</button>
+            <button type="button" class="btn btn-danger" (click)="newCard()">Resetear Campos </button>
+        </form>
+    </ng-template>
+</p-dialog>
+
+
+
+
+<!-- Diálogo para el formulario de editar socio -->
+<p-dialog header="Actualizar Socio" [(visible)]="isUpdate" [modal]="true" [responsive]="true" [style]="{width: '400px'}">
+  <!-- Contenido del diálogo -->
+  <ng-template pTemplate="content">
+      <!-- Formulario para editar socio -->
+      <form [formGroup]="updateForm" (ngSubmit)="updateSocio()">
+          <!-- Campos del formulario -->
+          <div class="form-group">
+              <label for="id_socio">ID:</label>
+              <input type="text" class="form-control" id="id_socio" formControlName="id">
+            </div>
+          <div class="form-group">
+              <label for="nombre_socio">Nombre:</label>
+              <input type="text" class="form-control" id="nombre_socio" formControlName="nombre">
+            </div>
+          <div class="form-group">
+              <label for="apellidos_socio">Apellidos:</label>
+              <input type="text" class="form-control" id="apellidos_socio" formControlName="apellidos">
+            </div>
+          <div class="form-group">
+              <label for="dni_socio">DNI:</label>
+              <input type="text" class="form-control" id="dni_socio" formControlName="dni">
+            </div>
+          <!-- Botón para guardar el socio -->
+          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="button" class="btn btn-danger" (click)="newCard()">Resetear Campos </button>
+      </form>
+  </ng-template>
+</p-dialog>
+
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-4 mt-4">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-12 text-center">
+              <p>&copy; 2024 Todos los derechos reservados</p>
+          </div>
+      </div>
+  </div>
+</footer>

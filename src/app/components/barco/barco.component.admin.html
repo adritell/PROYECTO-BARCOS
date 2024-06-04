@@ -1,0 +1,119 @@
+<!-- Header -->
+<div class="container-fluid p-0">
+    <header class="bg-dark text-white py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h2 class="mb-0">Listado de Barcos</h2>
+            <button *ngIf="isLogged()" (click)="logout()" class="btn btn-danger">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <br><br><br>
+    <div class="container col-md-12 p-2">
+      <button *ngIf="isAdmin()" type="button" (click)="showDialogToAdd()" class="btn btn-primary btn-sm">Añadir barco</button>
+      &nbsp;
+      &nbsp;
+      <button *ngIf="isAdmin()" type="button" class="btn btn-primary btn-sm" (click)="socios()">Panel Socios</button>
+      <table class="table mt-2 table-bordered">
+        <thead class="table-primary">
+          <tr>
+            <th>ID</th>
+            <th>Cuota</th>
+            <th>Número de Amarre</th>
+            <th>Número de Matrícula</th>
+            <th>Id del socio</th>
+            <th *ngIf="isAdmin()">Gestión</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let barco of listBarcos">
+            <td>{{ barco.id }}</td>
+            <td>{{ barco.cuota }}</td>
+            <td>{{ barco.numeroAmarre }}</td>
+            <td>{{ barco.numeroMatricula }}</td>
+            <td>{{ barco.idSocio }}</td>
+
+            <td *ngIf="isAdmin()">
+              <button class="btn btn-danger btn-sm" (click)="deleteBarco(barco.id)">Eliminar</button>
+              &nbsp;
+              <button class="btn btn-warning btn-sm" (click)="editBarco(barco)">Editar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Diálogo para el formulario de añadir -->
+    <p-dialog header="Añadir Barco" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [style]="{width: '400px'}">
+      <!-- Contenido del diálogo -->
+      <ng-template pTemplate="content">
+        <!-- Formulario para añadir barco -->
+        <form [formGroup]="formBarco" (ngSubmit)="saveBarco()">
+          <!-- Campos del formulario -->
+          <div class="form-group">
+            <label for="cuota_barco">Cuota:</label>
+            <input type="text" class="form-control" id="cuota_barco" formControlName="cuota" required>
+          </div>
+          <div class="form-group">
+            <label for="amarre_barco">Número de Amarre:</label>
+            <input type="text" class="form-control" id="amarre_barco" formControlName="numeroAmarre" required>
+          </div>
+          <div class="form-group">
+            <label for="matricula_barco">Número de Matrícula:</label>
+            <input type="text" class="form-control" id="matricula_barco" formControlName="numeroMatricula" required>
+          </div>
+          <div class="form-group">
+            <label for="socio_barco">Id del socio:</label>
+            <input type="text" class="form-control" id="socio_barco" formControlName="idSocio">
+          </div>
+          <!-- Botón para guardar el barco -->
+          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="button" class="btn btn-danger" (click)="displayDialog=false">Cancelar</button>
+        </form>
+      </ng-template>
+    </p-dialog>
+
+
+    <!-- Diálogo para el formulario de editar socio -->
+<p-dialog header="Actualizar Socio" [(visible)]="isUpdate" [modal]="true" [responsive]="true" [style]="{width: '400px'}">
+  <!-- Contenido del diálogo -->
+  <ng-template pTemplate="content">
+      <!-- Formulario para editar socio -->
+      <form [formGroup]="updateForm" (ngSubmit)="updateBarco()">
+          <!-- Campos del formulario -->
+          <div class="form-group">
+            <label for="cuota_barco">Cuota:</label>
+            <input type="text" class="form-control" id="cuota_barco" formControlName="cuota" required>
+          </div>
+          <div class="form-group">
+            <label for="amarre_barco">Número de Amarre:</label>
+            <input type="text" class="form-control" id="amarre_barco" formControlName="numeroAmarre" required>
+          </div>
+          <div class="form-group">
+            <label for="matricula_barco">Número de Matrícula:</label>
+            <input type="text" class="form-control" id="matricula_barco" formControlName="numeroMatricula" required>
+          </div>
+          <div class="form-group">
+            <label for="socio_barco">Id del socio:</label>
+            <input type="text" class="form-control" id="socio_barco" formControlName="idSocio">
+          </div>
+          <!-- Botón para guardar el barco -->
+          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="button" class="btn btn-danger" (click)="displayDialog=false">Cancelar </button>
+      </form>
+  </ng-template>
+</p-dialog>
+  
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <p>&copy; 2024 Todos los derechos reservados</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
